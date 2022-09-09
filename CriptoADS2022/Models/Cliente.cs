@@ -12,7 +12,7 @@ namespace CriptoADS2022.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Display(Name = "ID: ")]
         public int id { get; set; }
-
+        
         [StringLength(35)]
         [Required(ErrorMessage ="Campo nome é obrigatório")]
         [Display(Name ="Nome: ")]
@@ -31,6 +31,7 @@ namespace CriptoADS2022.Models
         [Range(18, 100, ErrorMessage = "Idade entre 18..100")]
         public int idade { get; set; }
 
+        public ICollection<Conta> contas { get; set; }
 
 
     }

@@ -5,7 +5,7 @@ namespace CriptoADS2022.Models
 {
     public enum Operacao {Compra, Venda}
 
-    [Table("Trasacoes")]
+    [Table("Transacoes")]
     public class Transacao
     {
         [Key]

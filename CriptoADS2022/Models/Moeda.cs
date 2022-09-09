@@ -20,8 +20,12 @@ namespace CriptoADS2022.Models
         [DisplayFormat(DataFormatString = "{0:C2}")]
         public float compra { get; set; }
 
-        [Display(Name = "Venda")]
+        [Display(Name = "Venda: ")]
         [DisplayFormat(DataFormatString = "{0:C2}")]
         public float venda { get; set; }
+
+
+        public ICollection<Conta> contas { get; set; }
+
     }
 }
