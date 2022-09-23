@@ -1,7 +1,14 @@
+using CriptoADS2022.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<Contexto>(options =>
+     options.UseSqlServer(builder.Configuration.GetConnectionString("conexao")));
 
 var app = builder.Build();
 
