@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CriptoADS2022.Models
 {
-    public enum Estado {RS, SC, PR, SP, RJ, ES, MG, MS, MT, GO, TO};
+    public enum Estado {RS, SC, PR, SP, RJ, ES, MG, MS, MT, GO, TO, MA, PA, PI, BA, SE, AL, RR, AM, AC};
 
     [Table("Clientes")]
     public class Cliente
@@ -22,6 +22,7 @@ namespace CriptoADS2022.Models
         [Required(ErrorMessage ="Campo cidade é obrigatório...")]
         [Display(Name ="Cidade: ")]
         public string cidade { get; set; }
+
 
         [Required(ErrorMessage = "Campo Estado é obrigatório...")]
         [Display(Name = "Estado: ")]
