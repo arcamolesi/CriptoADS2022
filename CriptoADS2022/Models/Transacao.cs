@@ -35,6 +35,14 @@ namespace CriptoADS2022.Models
         [Display(Name = "Operação: ")]
         public Operacao operacao { get; set; }
 
+        [Display(Name = "Total: ")]
+        [NotMapped]
+        [DisplayFormat(DataFormatString = "{0:N2}")]
+        public virtual float total { 
+            get {
+                return quantidade * valor; 
+            }
+        }
 
 
     }

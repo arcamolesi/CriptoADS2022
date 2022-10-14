@@ -24,16 +24,27 @@
                 <input asp-for="data" class="form-control" />
                 <span asp-validation-for="data" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="quantidade" class="control-label"></label>
-                <input asp-for="quantidade" class="form-control" />
+                <input asp-for="quantidade" class="form-control" id="quantidade"
+                       onblur="Calcular()" />
                 <span asp-validation-for="quantidade" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="valor" class="control-label"></label>
-                <input asp-for="valor" class="form-control" />
-                <span asp-validation-for="valor" class="text-danger"></span>
+                <input asp-for="valor" class="form-control" id="valor"
+                    onblur="Calcular()" />
+                <span asp-validation-for="valor" class="text-danger" ></span>
             </div>
+           
+            <br />
+            <div class="form-group">
+                <label class="control-label">Total: </label>
+                <span id="total"> </span>
+            </div>
+            <br />
 
             <div class="form-group">
                 <label asp-for="operacao" class="control-label"></label>
@@ -57,4 +68,20 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        function Calcular(){
+            var qtde = Number(document.getElementById("quantidade").value);
+            var valor = Number(document.getElementById("valor").value);
+            var total = document.getElementById("total");
+            var calc = qtde * valor;
+            var f = calc.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+
+            if (total.textContent == undefined)
+                total.textContent = f; 
+            else 
+                  total.innerText = f;
+            
+        }
+    </script>
 }
