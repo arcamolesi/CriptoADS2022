@@ -14,11 +14,13 @@ namespace CriptoADS2022.Models
 
         [Display(Name = "Cliente: ")]
         public int clienteid { get; set; }
+        [Display(Name = "Cliente: ")]
         public Cliente cliente { get; set; }
         
 
         [Display(Name ="Moeda: ")]
         public Moeda moeda { get; set; }
+        [Display(Name = "Moeda: ")]
         public int moedaid { get; set; }
 
 

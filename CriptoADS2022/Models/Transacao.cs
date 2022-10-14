@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace CriptoADS2022.Models
 {
     public enum Operacao {Compra, Venda}
+    
 
     [Table("Transacoes")]
     public class Transacao
@@ -15,7 +16,9 @@ namespace CriptoADS2022.Models
 
         [Required(ErrorMessage = "Conta é obrigatório...")]
         [Display(Name = "Conta: ")]
+        public int contaid { get; set; }
         public Conta conta { get; set; }
+
 
         [Display(Name = "Data: ")]
         [DisplayFormat(DataFormatString = "{0: dd/MM/yyyy}")]

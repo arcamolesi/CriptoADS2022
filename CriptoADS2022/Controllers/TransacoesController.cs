@@ -9,88 +9,100 @@ using CriptoADS2022.Models;
 
 namespace CriptoADS2022.Controllers
 {
-    public class ContasController : Controller
+    public class TransacoesController : Controller
     {
         private readonly Contexto _context;
 
-        public ContasController(Contexto context)
+        public TransacoesController(Contexto context)
         {
             _context = context;
         }
 
-        // GET: Contas
+        // GET: Transacoes
         public async Task<IActionResult> Index()
         {
-              return View(await _context.contas.Include(c =>c.cliente).
-                                 Include(m => m.moeda).ToListAsync());
+              return View(await _context.transacoes
+                  .Include(c=>c.conta).Include(c=>c.conta.cliente)
+                  .Include(m=>m.conta.moeda)
+                  .ToListAsync());
         }
 
-        // GET: Contas/Details/5
+        // GET: Transacoes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.contas == null)
+            if (id == null || _context.transacoes == null)
             {
                 return NotFound();
             }
 
-            var conta = await _context.contas
+            var transacao = await _context.transacoes
                 .FirstOrDefaultAsync(m => m.id == id);
-            if (conta == null)
+            if (transacao == null)
             {
                 return NotFound();
             }
 
-            return View(conta);
+            return View(transacao);
         }
 
-        // GET: Contas/Create
+        // GET: Transacoes/Create
         public IActionResult Create()
         {
-            ViewData["clientes"] = new SelectList(_context.clientes, "id", "nome");
-            ViewData["moedas"] = new SelectList(_context.moedas, "id", "descricao");
+            var operacao = Enum.GetValues(typeof(Operacao))
+                .Cast<Operacao>()
+                .Select(e => new SelectListItem
+                {
+                    Value = e.ToString(),
+                    Text = e.ToString()
+                });
+            ViewBag.operacao = operacao;
+
+
+            ViewData["contas"] = new SelectList(_context.contas, "id", "id");
+           
             return View();
         }
 
-        // POST: Contas/Create
+        // POST: Transacoes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,clienteid, moedaid, quantidade")] Conta conta)
+        public async Task<IActionResult> Create([Bind("id,contaid, data,quantidade,valor,operacao")] Transacao transacao)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(conta);
+                _context.Add(transacao);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(conta);
+            return View(transacao);
         }
 
-        // GET: Contas/Edit/5
+        // GET: Transacoes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.contas == null)
+            if (id == null || _context.transacoes == null)
             {
                 return NotFound();
             }
 
-            var conta = await _context.contas.FindAsync(id);
-            if (conta == null)
+            var transacao = await _context.transacoes.FindAsync(id);
+            if (transacao == null)
             {
                 return NotFound();
             }
-            return View(conta);
+            return View(transacao);
         }
 
-        // POST: Contas/Edit/5
+        // POST: Transacoes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,quantidade")] Conta conta)
+        public async Task<IActionResult> Edit(int id, [Bind("id,data,quantidade,valor,operacao")] Transacao transacao)
         {
-            if (id != conta.id)
+            if (id != transacao.id)
             {
                 return NotFound();
             }
@@ -99,12 +111,12 @@ namespace CriptoADS2022.Controllers
             {
                 try
                 {
-                    _context.Update(conta);
+                    _context.Update(transacao);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ContaExists(conta.id))
+                    if (!TransacaoExists(transacao.id))
                     {
                         return NotFound();
                     }
@@ -115,49 +127,49 @@ namespace CriptoADS2022.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(conta);
+            return View(transacao);
         }
 
-        // GET: Contas/Delete/5
+        // GET: Transacoes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.contas == null)
+            if (id == null || _context.transacoes == null)
             {
                 return NotFound();
             }
 
-            var conta = await _context.contas
+            var transacao = await _context.transacoes
                 .FirstOrDefaultAsync(m => m.id == id);
-            if (conta == null)
+            if (transacao == null)
             {
                 return NotFound();
             }
 
-            return View(conta);
+            return View(transacao);
         }
 
-        // POST: Contas/Delete/5
+        // POST: Transacoes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.contas == null)
+            if (_context.transacoes == null)
             {
-                return Problem("Entity set 'Contexto.contas'  is null.");
+                return Problem("Entity set 'Contexto.transacoes'  is null.");
             }
-            var conta = await _context.contas.FindAsync(id);
-            if (conta != null)
+            var transacao = await _context.transacoes.FindAsync(id);
+            if (transacao != null)
             {
-                _context.contas.Remove(conta);
+                _context.transacoes.Remove(transacao);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ContaExists(int id)
+        private bool TransacaoExists(int id)
         {
-          return _context.contas.Any(e => e.id == id);
+          return _context.transacoes.Any(e => e.id == id);
         }
     }
 }

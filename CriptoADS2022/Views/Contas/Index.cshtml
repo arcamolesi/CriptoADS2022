@@ -11,8 +11,18 @@
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
+
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.cliente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.moeda)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.quantidade)
             </th>
@@ -22,6 +32,15 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.cliente.nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.moeda.descricao)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.quantidade)
             </td>
